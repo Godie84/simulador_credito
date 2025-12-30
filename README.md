@@ -143,8 +143,17 @@ Roles diferenciados para usuarios normales y administradores.
 - **Base de datos:** MySQL / MariaDB
 - **Frontend:** Blade, Bootstrap 5, jQuery
 - **Autenticación:** Laravel Breeze / Fortify
+- **Control de versiones:** XAMPP V3.3.0
 - **Control de versiones:** Git
 
+
+### XAMPP
+![Xampp](public/docs/xampp.png)
+
+### MySQL/MariaDB
+![MySQL/MariaDB](public/docs/MySQL.png)
+
+ 
 ---
 
 ## 🚀 Instalación Local
