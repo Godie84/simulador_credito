@@ -114,6 +114,19 @@ Frontend combina Blade y JavaScript para interactividad.
 
 Roles diferenciados para usuarios normales y administradores.
 
+### Login
+![Login](public/docs/login.png)
+
+### Simulador
+![Simulador](public/docs/simulador.png)
+
+### Simulador
+![Registro](public/docs/registro.png)
+
+### Solicitudes
+![Solicitudes](public/docs/solicitudes.png)
+
+
 ## El proyecto incluye:
 
 - Simulador de crédito (pantalla pública)
