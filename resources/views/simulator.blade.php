@@ -60,9 +60,9 @@
                                 <label>Tipo de Documento</label>
                                 <select class="form-select" name="document_type_id" required>
                                     <option value="">Seleccione tipo de documento</option>
-                                    <option value="1">Cédula de Ciudadanía</option>
-                                    <option value="2">Cédula de Extranjería</option>
-                                    <option value="3">Pasaporte</option>
+                                    <option value="1">CC</option>
+                                    <option value="2">CE</option>
+                                    <option value="3">TI</option>
                                     <option value="4">NIT</option>
                                 </select>
                             </div>
@@ -92,7 +92,8 @@
                             </div>
                             <div class="col-md-6">
                                 <label>Celular</label>
-                                <input type="number" name="phone" class="form-control" required>
+                                <input type="text" name="phone" class="form-control" required pattern="\d{10,13}"
+                                    maxlength="13" title="El número de celular debe tener entre 10 y 13 dígitos">
                             </div>
                             <div class="col-md-6">
                                 <label>Correo electrónico</label>

@@ -1,8 +1,120 @@
 # Simulador de Crédito - Prueba Técnica
 
-## 📋 Descripción
-Aplicación web para simular créditos, registrar usuarios interesados y gestionar solicitudes a través de una consola administrativa.  
-El proyecto incluye:
+## Arquitectura y Funcionamiento del Proyecto Laravel “Credit Simulator”
+1. Introducción
+
+Este proyecto está desarrollado con el framework Laravel, utilizando principalmente el patrón arquitectónico MVC (Modelo-Vista-Controlador) junto con una API REST para manejar las operaciones del simulador y las solicitudes de crédito. La aplicación permite a usuarios normales simular créditos y registrar solicitudes, mientras que los administradores gestionan estas solicitudes a través de un panel administrativo.
+
+2. Estructura General
+2.1. Modelo-Vista-Controlador (MVC)
+
+Modelos (app/Models)
+Representan las entidades de negocio, como Clientes (Customer), Solicitudes de Crédito (LoanRequest) y Estados de Solicitud (LoanStatus).
+Se encargan de la lógica relacionada con los datos y las relaciones entre tablas.
+
+Vistas (resources/views)
+Son las plantillas Blade que generan la interfaz HTML visible para el usuario. Incluyen vistas para el simulador, registro de solicitudes y el panel administrativo.
+
+Controladores (app/Http/Controllers)
+Son la capa que recibe las solicitudes HTTP, ejecuta la lógica, interactúa con los modelos y retorna las respuestas (HTML o JSON).
+Ejemplos:
+
+PublicController para las vistas accesibles a usuarios normales.
+
+AdminController para funcionalidades administrativas.
+
+Controladores específicos para entidades, como LoanRequestController (API).
+
+2.2. API REST (app/Http/Controllers/Api)
+
+La aplicación expone endpoints RESTful para funcionalidades clave.
+
+Permite que el frontend (JavaScript con Fetch API) realice solicitudes AJAX para simular créditos y registrar solicitudes sin recargar la página.
+
+Las rutas de API están definidas en routes/api.php.
+
+2.3. Middleware y Seguridad
+
+Autenticación: Se usa middleware auth para proteger rutas que requieren usuario autenticado.
+
+Roles: Middleware admin protege las rutas de administración. Solo usuarios con rol admin acceden al panel.
+
+Redirección basada en roles: Tras login, se redirige a /admin/dashboard o al simulador según el rol.
+
+2.4. Frontend: Blade + JavaScript
+
+Se usa Blade para renderizar páginas con componentes reutilizables.
+
+JavaScript (en public/js/simulator.js) utiliza Fetch API para llamar a endpoints API y actualizar la interfaz dinámicamente.
+
+SweetAlert2 y otras librerías pueden usarse para mejorar la experiencia de usuario.
+
+3. Flujo de Funcionamiento (Usuario Normal)
+
+El usuario accede al simulador (vista pública o dashboard).
+
+Realiza una simulación enviando datos al endpoint API /api/simulate.
+
+El backend responde con el plan de cuotas, que se muestra dinámicamente.
+
+El usuario puede registrar una solicitud enviando un POST a /api/loan-requests.
+
+El sistema valida y almacena la solicitud.
+
+El usuario ve confirmación sin salir de la página.
+
+4. Flujo de Funcionamiento (Administrador)
+
+El administrador inicia sesión y es redirigido al panel administrativo.
+
+Visualiza todas las solicitudes de crédito con detalles y estado.
+
+Puede aprobar o rechazar solicitudes con botones que envían POST a rutas protegidas.
+
+El panel muestra confirmaciones y actualiza la lista.
+
+5. Diagrama Esquemático (Simple)
+Usuario Normal
+  │
+  ▼
+[Frontend Blade + JS]
+  │ (Fetch API)
+  ▼
+[API REST - LoanRequestController / SimulatorController]
+  │
+  ▼
+[Modelos: LoanRequest, Customer, LoanStatus, DocumentType]
+  │
+  ▼
+[Base de Datos]
+
+Administrador
+  │
+  ▼
+[Frontend Blade - Panel Admin]
+  │ (Form POST)
+  ▼
+[AdminController]
+  │
+  ▼
+[Modelos]
+  │
+  ▼
+[Base de Datos]
+
+6. Resumen
+
+Arquitectura MVC con separación clara de responsabilidades.
+
+API REST para operaciones asincrónicas y mejor experiencia UX.
+
+Middleware para proteger rutas y gestionar roles.
+
+Frontend combina Blade y JavaScript para interactividad.
+
+Roles diferenciados para usuarios normales y administradores.
+
+## El proyecto incluye:
 
 - Simulador de crédito (pantalla pública)
 - Registro de solicitudes de préstamo
@@ -12,7 +124,7 @@ El proyecto incluye:
 
 ---
 
-## 🛠 Tecnologías
+## Tecnologías
 
 - **Backend:** PHP 8.2 / Laravel 12.x
 - **Base de datos:** MySQL / MariaDB
@@ -26,8 +138,8 @@ El proyecto incluye:
 
 ### 1️⃣ Clonar repositorio
 ```bash
-git clone <URL_DEL_REPOSITORIO>
-cd <NOMBRE_DEL_PROYECTO>
+git clone https://github.com/Godie84/simulador_credito.git
+cd simulador_credito
 ```
 2️⃣ Instalar dependencias
 ```bash
@@ -57,9 +169,7 @@ php artisan migrate:fresh --seed
 Esto crea todas las tablas y carga:
 
 Usuario admin:
-
-Email: diego.reina9@hotmail.com
-
+Email: admin@hotmail.com
 Password: 1234567890
 
 Estados de préstamos: pendiente, aprobada, rechazada
@@ -76,22 +186,18 @@ Ingresar valor solicitado y número de cuotas
 Se mostrará el plan de pagos con:
 
 Número de cuota
-
 Valor de cuota
-
 Saldo pendiente
 
 Presionar ¡Lo quiero! para registrar la solicitud
 
 3️⃣ Registro de solicitud
+
 Completar formulario con datos personales
 
 Validaciones frontend y backend:
-
 Edad mínima 18 años
-
 Email válido
-
 Celular entre 10 y 13 dígitos
 
 Al enviar, se muestra mensaje de confirmación
@@ -99,17 +205,15 @@ Al enviar, se muestra mensaje de confirmación
 4️⃣ Consola administrativa
 URL: /admin (requiere login)
 
-Usuario admin: diego.reina9@hotmail.com / 1234567890
+Usuario admin: admin@hotmail.com / 1234567890
 
 Funcionalidades:
 
-Listar solicitudes registradas
+- Listar solicitudes registradas
+- Aprobar / Rechazar solicitudes
+- Estado reflejado en base de datos
 
-Aprobar / Rechazar solicitudes
-
-Estado reflejado en base de datos
-
-📦 API Endpoints
+API Endpoints
 Método	Ruta	Descripción
 GET	/api/simulate	Simular plan de pagos
 POST	/loan-requests	Registrar nueva solicitud
@@ -117,29 +221,22 @@ GET	/loan-requests	Listar solicitudes
 PUT	/loan-requests/{id}/approve	Aprobar solicitud
 PUT	/loan-requests/{id}/reject	Rechazar solicitud
 
-📝 Validaciones principales
-Valor solicitado: 100.000 a 100.000.000
+Validaciones principales
 
-Número de cuotas: 2 a 24
+- Valor solicitado: 100.000 a 100.000.000
+- Número de cuotas: 2 a 24
+- Edad mínima: 18 años
+- Celular: 10-13 dígitos
+- Email: formato válido
 
-Edad mínima: 18 años
+Notas
+- La contraseña del usuario admin está encriptada correctamente
+- El proyecto usa Laravel Breeze/Fortify para autenticación
+- Las solicitudes se manejan mediante relaciones Eloquent:
+- LoanRequest → Customer
+- LoanRequest → LoanStatus
 
-Celular: 10-13 dígitos
-
-Email: formato válido
-
-💡 Notas
-La contraseña del usuario admin está encriptada correctamente
-
-El proyecto usa Laravel Breeze/Fortify para autenticación
-
-Las solicitudes se manejan mediante relaciones Eloquent:
-
-LoanRequest → Customer
-
-LoanRequest → LoanStatus
-
-🖥️ Ejecutar servidor local
+Ejecutar servidor local
 ```bash
 php artisan serve
 Luego abrir: http://127.0.0.1:8000
@@ -152,7 +249,6 @@ Puedes generar el SQL desde las migraciones:
 php artisan migrate:status
 php artisan migrate:generate
 ```
-(O exportar desde MySQL/MariaDB si lo deseas.)
 
 
 

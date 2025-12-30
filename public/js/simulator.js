@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     Swal.fire({
                         icon: 'success',
                         title: '¡Solicitud registrada!',
-                        text: 'Tu solicitud de crédito fue registrada correctamente.',
+                        text: 'Gracias por registrar tu solicitud. Te contactaremos pronto..',
                         confirmButtonText: 'Aceptar'
                     });
 
